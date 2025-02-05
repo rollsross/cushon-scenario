@@ -1,9 +1,13 @@
 package storage
 
-import "database/sql"
+import (
+	"database/sql"
+
+	"github.com/rodionross/cushon-scenario/server"
+)
 
 type Repository interface {
-	CreateAccoutAndFund()
+	CreateAccoutAndFund(userId string, data server.CreateAccoutAndFundBody) error
 	GetAccountAndFund()
 }
 

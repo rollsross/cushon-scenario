@@ -9,5 +9,5 @@ type CreateAccoutAndFundBody struct {
 type GetAccountAndFundResponse struct {
 	AccountName string `json:"accountName" example:"Cushon ISA"`
 	FundName    string `json:"fundName" example:"Cushon Equities Fund"`
-	Balance     int    `json:"balance" example:"1000000"`
+	Balance     int    `json:"balance" example:"2500000"`
 }
