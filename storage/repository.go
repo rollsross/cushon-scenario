@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -101,11 +102,13 @@ func (s *Storage) GetAccountAndFund(userId string) (*AccountFund, error) {
 
 	var res AccountFund
 
-	for rows.Next() {
-		err := rows.Scan(&res.AccountName, &res.FundName, &res.Balance)
-		if err != nil {
-			return nil, err
-		}
+	if !rows.Next() {
+		return nil, fmt.Errorf("no records found for user ID: %s", userId)
+	}
+
+	err = rows.Scan(&res.AccountName, &res.FundName, &res.Balance)
+	if err != nil {
+		return nil, err
 	}
 
 	return &res, nil

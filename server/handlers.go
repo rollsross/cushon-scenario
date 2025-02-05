@@ -39,7 +39,7 @@ func HandleGetAccountAndFund(s storage.Repository) http.HandlerFunc {
 
 		data, err := s.GetAccountAndFund(userId)
 		if err != nil {
-			http.Error(w, "user not found", http.StatusBadRequest)
+			http.Error(w, err.Error(), http.StatusNotFound)
 			return
 		}
 
