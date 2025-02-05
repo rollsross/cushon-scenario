@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rodionross/cushon-scenario/helpers"
 	"github.com/rodionross/cushon-scenario/server"
 	"github.com/rodionross/cushon-scenario/storage"
 )
@@ -23,7 +24,12 @@ func main() {
 		panic(err)
 	}
 
-	err = storage.Seed(db)
+	err = helpers.ExecuteSQLFile(db, "database/schemas.sql")
+	if err != nil {
+		panic(err)
+	}
+
+	err = helpers.ExecuteSQLFile(db, "database/seed.sql")
 	if err != nil {
 		panic(err)
 	}

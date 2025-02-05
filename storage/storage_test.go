@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rodionross/cushon-scenario/helpers"
 )
 
 func getRepoForTest(t *testing.T) (repo Repository, cleanup func()) {
@@ -18,7 +19,12 @@ func getRepoForTest(t *testing.T) (repo Repository, cleanup func()) {
 		panic(err)
 	}
 
-	err = Seed(db)
+	err = helpers.ExecuteSQLFile(db, "../database/schemas.sql")
+	if err != nil {
+		panic(err)
+	}
+
+	err = helpers.ExecuteSQLFile(db, "../database/seed.sql")
 	if err != nil {
 		panic(err)
 	}
