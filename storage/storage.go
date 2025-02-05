@@ -4,6 +4,8 @@ import (
 	"database/sql"
 )
 
+//go:generate mockgen -source=storage/storage.go -destination=storage/mocks/mock_storage.go
+
 type Repository interface {
 	CreateAccoutAndFund(userId, accountTypeId, fundId string, balance int) error
 	GetAccountAndFund(userId string) (*AccountFund, error)
