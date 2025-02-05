@@ -7,13 +7,13 @@ type Repository interface {
 	GetAccountAndFund()
 }
 
-type Store struct {
+type Storage struct {
 	db *sql.DB
 }
 
 // TODO: change to return the interface when methods are implemented
-func New(db *sql.DB) *Store {
-	return &Store{
+func New(db *sql.DB) *Storage {
+	return &Storage{
 		db: db,
 	}
 }
