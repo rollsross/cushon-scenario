@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rodionross/cushon-scenario/storage"
 )
 
 func main() {
@@ -15,6 +16,16 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+
+	_, err = db.Exec("PRAGMA foreign_keys = ON;")
+	if err != nil {
+		panic(err)
+	}
+
+	err = storage.Seed(db)
+	if err != nil {
+		panic(err)
+	}
 
 	mux := http.NewServeMux()
 
