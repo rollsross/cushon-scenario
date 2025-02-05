@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/rodionross/cushon-scenario/server"
 )
 
 type User struct {
@@ -83,4 +82,31 @@ func (s *Storage) CreateAccoutAndFund(userId, accountTypeId, fundId string, bala
 	tx.Commit()
 
 	return nil
+}
+
+func (s *Storage) GetAccountAndFund(userId string) (*AccountFund, error) {
+	getAccountAndFund := `
+	SELECT account_types.name, funds.name, accounts_funds.balance
+    FROM accounts
+    JOIN account_types ON accounts.account_types_id = account_types.id
+    JOIN accounts_funds ON accounts.id = accounts_funds.accounts_id
+    JOIN funds ON accounts_funds.funds_id = funds.id
+    WHERE accounts.users_id = '00a79964-34c2-48ab-88ab-de65427cb960'
+    LIMIT 1;`
+	rows, err := s.db.Query(getAccountAndFund, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var res AccountFund
+
+	for rows.Next() {
+		err := rows.Scan(&res.AccountName, &res.FundName, &res.Balance)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return &res, nil
 }

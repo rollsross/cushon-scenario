@@ -2,8 +2,6 @@ package storage
 
 import (
 	"database/sql"
-
-	"github.com/rodionross/cushon-scenario/server"
 )
 
 type Repository interface {
