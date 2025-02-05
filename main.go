@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rodionross/cushon-scenario/server"
 	"github.com/rodionross/cushon-scenario/storage"
 )
 
@@ -27,7 +28,12 @@ func main() {
 		panic(err)
 	}
 
+	store := storage.New(db)
+
 	mux := http.NewServeMux()
+
+	mux.HandleFunc("POST /api/isa-account/{id}/create", server.HandleCreateAccountAndFund(store))
+	mux.HandleFunc("GET /api/isa-account/{id}", server.HandleGetAccountAndFund(store))
 
 	port := "8080"
 
