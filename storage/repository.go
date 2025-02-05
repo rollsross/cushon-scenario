@@ -1,11 +1,14 @@
 package storage
 
 import (
-	"fmt"
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
 )
+
+var ErrFailedToCreateAccountAndFund = errors.New("failed to create account and fund")
+var ErrNoRecordsFoundForUser = errors.New("no records found for user")
 
 type User struct {
 	Id        string
@@ -41,10 +44,10 @@ type AccountFund struct {
 	Balance     int    `json:"balance" example:"2500000"`
 }
 
-func (s *Storage) CreateAccoutAndFund(userId, accountTypeId, fundId string, balance int) error {
+func (s *Storage) CreateAccountAndFund(userId, accountTypeId, fundId string, balance int) error {
 	tx, err := s.db.Begin()
 	if err != nil {
-		return err
+		return ErrFailedToCreateAccountAndFund
 	}
 
 	accountId, _ := uuid.NewV7()
@@ -62,7 +65,7 @@ func (s *Storage) CreateAccoutAndFund(userId, accountTypeId, fundId string, bala
 	)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return ErrFailedToCreateAccountAndFund
 	}
 
 	insertAccountFund := `
@@ -78,7 +81,7 @@ func (s *Storage) CreateAccoutAndFund(userId, accountTypeId, fundId string, bala
 	)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return ErrFailedToCreateAccountAndFund
 	}
 	tx.Commit()
 
@@ -92,7 +95,7 @@ func (s *Storage) GetAccountAndFund(userId string) (*AccountFund, error) {
     JOIN account_types ON accounts.account_types_id = account_types.id
     JOIN accounts_funds ON accounts.id = accounts_funds.accounts_id
     JOIN funds ON accounts_funds.funds_id = funds.id
-    WHERE accounts.users_id = '00a79964-34c2-48ab-88ab-de65427cb960'
+    WHERE accounts.users_id = ?
     LIMIT 1;`
 	rows, err := s.db.Query(getAccountAndFund, userId)
 	if err != nil {
@@ -103,7 +106,7 @@ func (s *Storage) GetAccountAndFund(userId string) (*AccountFund, error) {
 	var res AccountFund
 
 	if !rows.Next() {
-		return nil, fmt.Errorf("no records found for user ID: %s", userId)
+		return nil, ErrNoRecordsFoundForUser
 	}
 
 	err = rows.Scan(&res.AccountName, &res.FundName, &res.Balance)

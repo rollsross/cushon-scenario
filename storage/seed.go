@@ -7,12 +7,12 @@ import (
 )
 
 func Seed(db *sql.DB) error {
-	err := helpers.ExecuteSQLFile(db, "./database/schemas.sql")
+	err := helpers.ExecuteSQLFile(db, "/Users/rodion/code/cushon-scenario/database/schemas.sql")
 	if err != nil {
 		return err
 	}
 
-	err = helpers.ExecuteSQLFile(db, "./database/seed.sql")
+	err = helpers.ExecuteSQLFile(db, "/Users/rodion/code/cushon-scenario/database/seed.sql")
 	if err != nil {
 		return err
 	}

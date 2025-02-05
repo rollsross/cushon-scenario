@@ -40,18 +40,18 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 	return m.recorder
 }
 
-// CreateAccoutAndFund mocks base method.
-func (m *MockRepository) CreateAccoutAndFund(userId, accountTypeId, fundId string, balance int) error {
+// CreateAccountAndFund mocks base method.
+func (m *MockRepository) CreateAccountAndFund(userId, accountTypeId, fundId string, balance int) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateAccoutAndFund", userId, accountTypeId, fundId, balance)
+	ret := m.ctrl.Call(m, "CreateAccountAndFund", userId, accountTypeId, fundId, balance)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// CreateAccoutAndFund indicates an expected call of CreateAccoutAndFund.
-func (mr *MockRepositoryMockRecorder) CreateAccoutAndFund(userId, accountTypeId, fundId, balance any) *gomock.Call {
+// CreateAccountAndFund indicates an expected call of CreateAccountAndFund.
+func (mr *MockRepositoryMockRecorder) CreateAccountAndFund(userId, accountTypeId, fundId, balance any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAccoutAndFund", reflect.TypeOf((*MockRepository)(nil).CreateAccoutAndFund), userId, accountTypeId, fundId, balance)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAccountAndFund", reflect.TypeOf((*MockRepository)(nil).CreateAccountAndFund), userId, accountTypeId, fundId, balance)
 }
 
 // GetAccountAndFund mocks base method.
