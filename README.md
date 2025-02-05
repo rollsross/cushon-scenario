@@ -29,3 +29,4 @@ As a specific use case please consider a customer who wishes to deposit £25,000
 - Server will include the http handlers.
 - Storage will have the storage struct, repository interface and the CRUD methods interacting with the database.
 - SQLITE will be used to store the data.
+- Database will be seeded with the user, accounts_type and funds_type.
