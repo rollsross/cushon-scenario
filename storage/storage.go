@@ -7,16 +7,15 @@ import (
 )
 
 type Repository interface {
-	CreateAccoutAndFund(userId string, data server.CreateAccoutAndFundBody) error
-	GetAccountAndFund()
+	CreateAccoutAndFund(userId, accountTypeId, fundId string, balance int) error
+	GetAccountAndFund(userId string) (*AccountFund, error)
 }
 
 type Storage struct {
 	db *sql.DB
 }
 
-// TODO: change to return the interface when methods are implemented
-func New(db *sql.DB) *Storage {
+func New(db *sql.DB) Repository {
 	return &Storage{
 		db: db,
 	}

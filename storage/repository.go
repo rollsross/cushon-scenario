@@ -35,7 +35,13 @@ type Fund struct {
 	UpdatedAt time.Time
 }
 
-func (s *Storage) CreateAccoutAndFund(userId string, data server.CreateAccoutAndFundBody) error {
+type AccountFund struct {
+	AccountName string `json:"accountName" example:"Cushon ISA"`
+	FundName    string `json:"fundName" example:"Cushon Equities Fund"`
+	Balance     int    `json:"balance" example:"2500000"`
+}
+
+func (s *Storage) CreateAccoutAndFund(userId, accountTypeId, fundId string, balance int) error {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err
@@ -49,7 +55,7 @@ func (s *Storage) CreateAccoutAndFund(userId string, data server.CreateAccoutAnd
 	_, err = tx.Exec(
 		insertAccount,
 		accountId,
-		data.AccountTypeId,
+		accountTypeId,
 		userId,
 		time.Now(),
 		time.Now(),
@@ -64,8 +70,8 @@ func (s *Storage) CreateAccoutAndFund(userId string, data server.CreateAccoutAnd
 	VALUES(?, ?, ?, ?, ?);`
 	_, err = tx.Exec(
 		insertAccountFund,
-		data.Balance,
-		data.FundId,
+		balance,
+		fundId,
 		accountId,
 		time.Now(),
 		time.Now(),
