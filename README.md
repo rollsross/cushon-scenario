@@ -1,3 +1,36 @@
+## Project
+
+To run the project you will need:
+
+- go version 1.23
+- sqlite verison 3.43
+- the port is 8080
+
+There are 2 endpoints:
+
+```
+  - POST api/isa-account/{userId}/create
+  - GET api/isa-account/{userId}
+```
+
+The POST method expects a body of format:
+
+```
+{
+  "accountTypeId": "b19caf34-b367-40a0-a3d8-5072119d357e",
+  "fundId": "640aab24-4d60-4af7-bdde-5b6ab70538db",
+  "balance": 2500000
+}
+```
+
+Where the values for `accountTypeId` and `fundId` are as listed aove.
+
+The GET method will expect `userId` of `00a79964-34c2-48ab-88ab-de65427cb960`
+<br><br>The assumptions were that the `user`, `accountTypeId` and `fundId` already exist in the database, hence they will already have `ids`.
+
+To run the project run `go run .`
+<br>To run the tests run `go test ./...`
+
 ## Scenario
 
 Cushon already offers ISAs and Pensions to Employees of Companies (Employers) who have an existing arrangement with Cushon. Cushon would like to be able to offer ISA investments to retail (direct) customers who are not associated with an employer. Cushon would like to keep the functionality for retail ISA customers separate from it’s Employer based offering where practical.
